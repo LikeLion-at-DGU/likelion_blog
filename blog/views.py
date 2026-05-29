@@ -112,6 +112,7 @@ def tech_detail(request, slug):
         TechPost.objects.select_related('category').prefetch_related('tags'),
         slug=slug,
     )
+    from django.urls import reverse
     sections = _parse_body(post.body)
     comments = list(post.comments.all().order_by('created_at'))
     return render(request, 'blog/tech_detail.html', {
@@ -120,6 +121,7 @@ def tech_detail(request, slug):
         'post': post,
         'sections': sections,
         'comments': comments,
+        'comment_url': reverse('comment_submit', args=[slug]),
     })
 
 
